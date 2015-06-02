@@ -17,6 +17,7 @@ sqlcipher/sqlite3.c:
 	make -C sqlcipher sqlite3.c
 
 copy-libs-hack: build-local-hack
+	cd ${CURDIR}
 	install -p -m644 libs/armeabi/*.so ../obj/local/armeabi/
 
 project_ldflags:= -Llibs/$(TARGET_ARCH_ABI)/ -Landroid-libs/$(TARGET_ARCH_ABI)/
@@ -33,7 +34,8 @@ android_sqlite_cflags :=  -DHAVE_USLEEP=1 \
 	-DSQLITE_ENABLE_MEMORY_MANAGEMENT=1 -DSQLITE_TEMP_STORE=3 \
 	-DSQLITE_ENABLE_FTS3_BACKWARDS -DSQLITE_ENABLE_LOAD_EXTENSION \
 	-DSQLITE_ENABLE_MEMORY_MANAGEMENT -DSQLITE_ENABLE_COLUMN_METADATA \
-	-DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_RTREE \
+	-DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS3_PARENTHESIS \
+	-DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_RTREE \
 	-DSQLITE_SOUNDEX -DSQLITE_ENABLE_STAT3 -DSQLITE_ENABLE_FTS4_UNICODE61 \
 	-DSQLITE_THREADSAFE
 
@@ -95,6 +97,7 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/platform-system-core/include \
 	$(LOCAL_PATH)/platform-frameworks-base/include
 
+LOCAL_LDFLAGS += -fuse-ld=bfd
 LOCAL_LDFLAGS += -L${LOCAL_PATH}/android-libs/$(TARGET_ARCH_ABI)/ -L$(LOCAL_PATH)/libs/$(TARGET_ARCH_ABI)/
 LOCAL_LDLIBS := -llog -lutils -lcutils
 LOCAL_MODULE := libsqlcipher_android
