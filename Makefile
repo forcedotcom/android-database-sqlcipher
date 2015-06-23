@@ -34,7 +34,7 @@ endif
 
 init:
 	git submodule update --init
-	android update project -p .
+	android update project -p . -t android-19
 	cd ${OPENSSL_DIR} && git clean -dfx && \
 	git checkout -f && ./Configure dist
 
